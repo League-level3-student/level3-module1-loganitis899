@@ -17,18 +17,19 @@ public class HangMan implements KeyListener {
 	String underscores = "";
 	int hearts = 5;
 	String poppedWord = "";
+
 	int L = 0;
 	Stack<String> word = new Stack<String>();
- static Boolean done = false;
+	static Boolean done = false;
+
 	public static void main(String[] args) {
 		HangMan start = new HangMan();
 		start.start();
-		
-		
 
 	}
 
 	void start() {
+		done = false;
 		f.setVisible(true);
 		f.add(p);
 
@@ -52,44 +53,26 @@ public class HangMan implements KeyListener {
 	}
 
 	public void keyTyped(KeyEvent e) {
-		char typed = e.getKeyChar();
-		for (int i = 0; i < poppedWord.length(); i++) {
-			if (typed == poppedWord.charAt(i)) {
-				
-					if (i == 0) {
-					String partA=""+typed;
-					String partB = underscores.substring(1);
-					String returnWord = partA +partB;
-					words.setText(returnWord);
-					underscores=returnWord;
-					} else {
-						String partA = underscores.substring(0, i);
-						String partB = underscores.substring(i + 1);
-						String wordInsert = "" + typed;
-						String returnWord = partA + wordInsert + partB;
-						words.setText(returnWord);
-						underscores=returnWord;
-						if(done==true) {
-							reset();
-					}
-				
-			}
-		}
-if(underscores.contains("_")) {
-	
-} else {
-	done=true;
-}}
+		
 	}
 
 	void reset() {
-		underscores="";
-		words.setText("");
-		setUpLength();
-		
-		
-		
+		underscores = "";
+
+		f.pack();
+		if (word.isEmpty() && underscores.contains("_") == false) {
+			String play = JOptionPane
+					.showInputDialog("Do you want to play agan?, Press 1 to play again, press 2 to die");
+			if (play.contains("1")) {
+				start();
+			} else {
+				System.exit(0);
+			}
+		}else{
+		words.setText(setUpLength());
+		}
 	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 
@@ -97,7 +80,44 @@ if(underscores.contains("_")) {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		char typed = e.getKeyChar();
+		boolean in=false;
+		for (int i = 0; i < poppedWord.length(); i++) {
 
+			if (typed == poppedWord.charAt(i)) {
+in=true;
+				if (i == 0) {
+					String partA = "" + typed;
+					String partB = underscores.substring(1);
+					String returnWord = partA + partB;
+					words.setText(returnWord);
+					underscores = returnWord;
+				} else {
+					String partA = underscores.substring(0, i);
+					String partB = underscores.substring(i + 1);
+					String wordInsert = "" + typed;
+					String returnWord = partA + wordInsert + partB;
+					words.setText(returnWord);
+					underscores = returnWord;
+
+				}
+
+			
+			
+
+			}
+		}
+		if (in == false) {
+			hearts = hearts - 1;
+			lives.setText("Lives left: " + hearts);
+		}
+		
+		if (underscores.contains("_")) {
+
+		} else {
+			done = true;
+			reset();
+		}
 	}
 
 	String setUpLength() {
@@ -110,4 +130,6 @@ if(underscores.contains("_")) {
 		System.out.println(underscores);
 		return underscores;
 	}
+	
+	
 }
