@@ -15,7 +15,7 @@ public class HangMan implements KeyListener {
 	JLabel words = new JLabel();
 	JLabel lives = new JLabel();
 	String underscores = "";
-	int hearts = 5;
+	int hearts = 6;
 	String poppedWord = "";
 
 	int L = 0;
@@ -58,8 +58,8 @@ public class HangMan implements KeyListener {
 
 	void reset() {
 		underscores = "";
-
-		f.pack();
+ hearts=6;
+		
 		if (word.isEmpty() && underscores.contains("_") == false) {
 			String play = JOptionPane
 					.showInputDialog("Do you want to play agan?, Press 1 to play again, press 2 to die");
@@ -71,8 +71,15 @@ public class HangMan implements KeyListener {
 		}else{
 		words.setText(setUpLength());
 		}
+		f.pack();
+		checklives();
 	}
-
+ void checklives() {
+	 if(hearts==0) {
+		 JOptionPane.showMessageDialog(null, "You Died");
+		 System.exit(0);
+	 }
+ }
 	@Override
 	public void keyPressed(KeyEvent e) {
 
@@ -110,6 +117,8 @@ in=true;
 		if (in == false) {
 			hearts = hearts - 1;
 			lives.setText("Lives left: " + hearts);
+			checklives();
+			
 		}
 		
 		if (underscores.contains("_")) {
@@ -129,6 +138,7 @@ in=true;
 		}
 		System.out.println(underscores);
 		return underscores;
+	
 	}
 	
 	
